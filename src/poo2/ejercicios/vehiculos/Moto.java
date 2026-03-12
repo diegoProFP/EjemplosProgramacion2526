@@ -13,8 +13,12 @@ public class Moto extends VehiculoTerrestre {
     }
 
     public void setColor(String color) {
-        validarTexto(color, "El color no puede estar vacio");
-        this.color = color;
+        if (esTextoValido(color)) {
+            this.color = color;
+        } else {
+            System.err.println("El color no puede estar vacio");
+            this.color = "Sin color";
+        }
     }
 
     @Override

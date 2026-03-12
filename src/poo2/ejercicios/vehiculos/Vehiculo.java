@@ -3,12 +3,23 @@ package poo2.ejercicios.vehiculos;
 public abstract class Vehiculo {
     private final String matricula;
     private final String modelo;
+    private static final String MATRICULA_POR_DEFECTO = "INVALIDA";
+    private static final String MODELO_POR_DEFECTO = "MODELO_NO_VALIDO";
 
-    protected Vehiculo(String matricula, String modelo, String patronMatricula, String descripcionPatron) {
-        validarTexto(modelo, "El modelo no puede estar vacio");
-        validarMatricula(matricula, patronMatricula, descripcionPatron);
-        this.matricula = matricula;
-        this.modelo = modelo;
+    protected Vehiculo(String matricula, String modelo, String tipoMatricula) {
+        if (esTextoValido(modelo)) {
+            this.modelo = modelo;
+        } else {
+            System.err.println("El modelo no puede estar vacio");
+            this.modelo = MODELO_POR_DEFECTO;
+        }
+
+        if (esMatriculaValida(matricula, tipoMatricula)) {
+            this.matricula = matricula;
+        } else {
+            System.err.println("Matricula no valida para un vehiculo " + tipoMatricula.toLowerCase());
+            this.matricula = MATRICULA_POR_DEFECTO;
+        }
     }
 
     public String getMatricula() {
@@ -29,34 +40,91 @@ public abstract class Vehiculo {
 
     protected abstract String getDatosImpresion();
 
-    protected void validarTexto(String valor, String mensajeError) {
-        if (valor == null || valor.isBlank()) {
-            throw new IllegalArgumentException(mensajeError);
-        }
+    protected boolean esTextoValido(String valor) {
+        return valor != null && !valor.isBlank();
     }
 
-    protected void validarNoNegativo(double valor, String mensajeError) {
-        if (valor < 0) {
-            throw new IllegalArgumentException(mensajeError);
-        }
+    protected boolean esNoNegativo(double valor) {
+        return valor >= 0;
     }
 
-    protected void validarPositivo(int valor, String mensajeError) {
-        if (valor <= 0) {
-            throw new IllegalArgumentException(mensajeError);
-        }
+    protected boolean esPositivo(int valor) {
+        return valor > 0;
     }
 
-    protected void validarPositivo(double valor, String mensajeError) {
-        if (valor <= 0) {
-            throw new IllegalArgumentException(mensajeError);
-        }
+    protected boolean esPositivo(double valor) {
+        return valor > 0;
     }
 
-    private void validarMatricula(String matricula, String patronMatricula, String descripcionPatron) {
-        validarTexto(matricula, "La matricula no puede estar vacia");
-        if (!matricula.matches(patronMatricula)) {
-            throw new IllegalArgumentException("La matricula debe cumplir el formato: " + descripcionPatron);
+    private boolean esMatriculaValida(String matricula, String tipoMatricula) {
+        if (!esTextoValido(matricula)) {
+            return false;
         }
+
+        if ("TERRESTRE".equals(tipoMatricula)) {
+            return esMatriculaTerrestreValida(matricula);
+        }
+        if ("ACUATICO".equals(tipoMatricula)) {
+            return esMatriculaAcuaticaValida(matricula);
+        }
+        if ("AEREO".equals(tipoMatricula)) {
+            return esMatriculaAereaValida(matricula);
+        }
+        return false;
+    }
+
+    private boolean esMatriculaTerrestreValida(String matricula) {
+        if (matricula.length() != 7) {
+            return false;
+        }
+
+        for (int i = 0; i < 4; i++) {
+            if (!Character.isDigit(matricula.charAt(i))) {
+                return false;
+            }
+        }
+
+        for (int i = 4; i < 7; i++) {
+            if (!Character.isLetter(matricula.charAt(i)) || !Character.isUpperCase(matricula.charAt(i))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean esMatriculaAcuaticaValida(String matricula) {
+        if (matricula.length() < 3 || matricula.length() > 10) {
+            return false;
+        }
+
+        for (int i = 0; i < matricula.length(); i++) {
+            char letra = matricula.charAt(i);
+            if (!Character.isLetter(letra) || !Character.isUpperCase(letra)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean esMatriculaAereaValida(String matricula) {
+        if (matricula.length() != 10) {
+            return false;
+        }
+
+        for (int i = 0; i < 4; i++) {
+            if (!Character.isLetter(matricula.charAt(i)) || !Character.isUpperCase(matricula.charAt(i))) {
+                return false;
+            }
+        }
+
+        for (int i = 4; i < 10; i++) {
+            if (!Character.isDigit(matricula.charAt(i))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

@@ -13,8 +13,12 @@ public class Helicoptero extends VehiculoAereo {
     }
 
     public void setNumeroHelices(int numeroHelices) {
-        validarPositivo(numeroHelices, "El numero de helices debe ser positivo");
-        this.numeroHelices = numeroHelices;
+        if (esPositivo(numeroHelices)) {
+            this.numeroHelices = numeroHelices;
+        } else {
+            System.err.println("El numero de helices debe ser positivo");
+            this.numeroHelices = 0;
+        }
     }
 
     @Override

@@ -13,8 +13,12 @@ public class Submarino extends VehiculoAcuatico {
     }
 
     public void setProfundidadMaxima(double profundidadMaxima) {
-        validarNoNegativo(profundidadMaxima, "La profundidad maxima no puede ser negativa");
-        this.profundidadMaxima = profundidadMaxima;
+        if (esNoNegativo(profundidadMaxima)) {
+            this.profundidadMaxima = profundidadMaxima;
+        } else {
+            System.err.println("La profundidad maxima no puede ser negativa");
+            this.profundidadMaxima = 0;
+        }
     }
 
     @Override

@@ -13,8 +13,12 @@ public class Avion extends VehiculoAereo {
     }
 
     public void setTiempoMaximoVuelo(double tiempoMaximoVuelo) {
-        validarPositivo(tiempoMaximoVuelo, "El tiempo maximo de vuelo debe ser positivo");
-        this.tiempoMaximoVuelo = tiempoMaximoVuelo;
+        if (esPositivo(tiempoMaximoVuelo)) {
+            this.tiempoMaximoVuelo = tiempoMaximoVuelo;
+        } else {
+            System.err.println("El tiempo maximo de vuelo debe ser positivo");
+            this.tiempoMaximoVuelo = 0;
+        }
     }
 
     @Override
