@@ -1,5 +1,7 @@
 package poo2.simulacro.modelo;
 
+import java.util.Objects;
+
 public abstract class Empleado {
 
     public static final int HORAS_POR_SEMANA = 40;
@@ -45,4 +47,7 @@ public abstract class Empleado {
                 ", precioHora=" + precioHora +
                 '}';
     }
+
+
+
 }
