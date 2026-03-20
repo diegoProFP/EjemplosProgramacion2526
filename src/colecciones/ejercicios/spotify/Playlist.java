@@ -13,7 +13,13 @@ public class Playlist {
     }
 
     public boolean agregarCancion(Cancion nueva) {
+
+        if (nueva == null) {
+            System.out.println("Cancion nula");
+            return false;
+        }
         if (listaCanciones.contains(nueva)) {
+            System.out.println("Cancion repetida");
             return false;
         }
         return listaCanciones.add(nueva);
@@ -31,6 +37,18 @@ public class Playlist {
 
     public void eliminarCancionPorIndice(int index) {
         listaCanciones.remove(index);
+    }
+
+    public Cancion obtenerCancionPorNombreManual(String nombre) {
+
+        for (Cancion canc : listaCanciones) {
+            if(canc.getNombre().toLowerCase().contains(nombre.toLowerCase())){
+                System.out.println("Canción encontrada");
+                return canc;
+            }
+        }
+        System.out.println("Canción no encontrada: " + nombre);
+        return null;
     }
 
     public Cancion obtenerCancionPorNombre(String nombre) {
@@ -68,9 +86,10 @@ public class Playlist {
             return;
         }
 
-        for (int i = 0; i < listaCanciones.size(); i++) {
-            System.out.println((i + 1) + ". " + listaCanciones.get(i));
-            System.out.println();
+        int numCancion = 1;
+        for (Cancion canc : listaCanciones) {
+            System.out.println(numCancion + " : " + canc.getNombre() + " |" + canc.getGenero() + " | " + canc.obtenerDuracionMinutos() + " min");
+            numCancion++;
         }
     }
 }

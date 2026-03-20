@@ -7,7 +7,6 @@ public class Spotify {
 
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
-        teclado.useLocale(Locale.US);
 
         System.out.print("Introduce el nombre de la playlist: ");
         String nombrePlaylist = teclado.nextLine();
