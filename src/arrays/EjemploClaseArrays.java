@@ -1,7 +1,26 @@
 package arrays;
 
 import java.util.Arrays;
+/*
 
+   private String[] palos = {"Corazones", "Diamantes", "Treboles", "Picas"};
+    private String[] valores = {"As", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J","Q", "K"};
+
+ public void mostrarEstadisticas(){
+        Map<String, Integer> numCartasPorPalo = new HashMap<>();
+        for(Carta cartita :  baraja){
+            String palo = cartita.getPalo();
+            if(numCartasPorPalo.containsKey(palo)){
+                Integer totalCartasPalo = numCartasPorPalo.get(palo);
+                totalCartasPalo++;
+            }else{
+                numCartasPorPalo.put(palo, 1);
+            }
+        }
+
+
+    }
+ */
 public class EjemploClaseArrays {
 
     public static void main(String[] args) {
