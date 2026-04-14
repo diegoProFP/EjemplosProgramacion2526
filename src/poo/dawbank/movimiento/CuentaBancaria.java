@@ -14,6 +14,7 @@ public class CuentaBancaria {
     private Movimiento[] movimientos;
     private int posicionProximoMovimiento = 0;
 
+    //TODO: Si el IBAN no es valido, elevar una excepcion de "IbanInvalidoException"
     public CuentaBancaria(String iban, Persona titularCuenta) {
         this.iban = iban;
         this.titular = titularCuenta;
