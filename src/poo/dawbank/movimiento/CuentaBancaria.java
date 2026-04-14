@@ -202,11 +202,31 @@ public class CuentaBancaria {
     }
 
     public static boolean validarIBANCuenta(String iban){
-        //TODO: falta validacion
+        // 1. Limpieza y validación básica
+        iban = iban.replaceAll("\\s+", "").toUpperCase();
+        if (iban.length() < 15 || iban.length() > 34 || !iban.matches("[A-Z0-9]+")) {
+            return false;
+        }
 
+        // 2. Reordenar: mover los 4 primeros caracteres al final
+        String reordenado = iban.substring(4) + iban.substring(0, 4);
 
+        // 3. Convertir letras a números y calcular módulo 97 por bloques
+        int resto = 0;
+        for (int i = 0; i < reordenado.length(); i++) {
+            char c = reordenado.charAt(i);
+            int valorNumerico = Character.isLetter(c) ? Character.getNumericValue(c) : Character.getNumericValue(c);
 
-        return false;
+            // Si es letra (ej: 'E'=14), procesamos dos dígitos, si es número procesamos uno.
+            if (valorNumerico >= 10) {
+                resto = (resto * 100 + valorNumerico) % 97;
+            } else {
+                resto = (resto * 10 + valorNumerico) % 97;
+            }
+        }
+
+        // 4. El IBAN es válido si el resto final es 1
+        return resto == 1;
     }
 
     public String getIban() {
