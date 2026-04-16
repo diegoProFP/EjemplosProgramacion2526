@@ -12,21 +12,25 @@ public class EjemploRutas {
 
         //Este fichero sólo está en mi ruta. Por favor, coged alguno en vuestro equipo
         //home/diego/Descargas/Datos_ejemplo.txt
-        Path rutaFichero = Paths.get("/home/diego/Descargas/Datos_ejemplo.txt");
+        //Path rutaElemento = Paths.get("/home/diego/Descargas/Datos_ejemplo.txt");
+        Path rutaElemento = Paths.get("Salida1.txt");
 
-        System.out.println("La ruta del fichero es: " + rutaFichero);
-        System.out.println("El nombre del fichero es: " + rutaFichero.getFileName());
-        System.out.println("La ruta del padre es: " + rutaFichero.getParent());
+        System.out.println("La ruta del fichero es: " + rutaElemento);
+        System.out.println("El nombre del fichero es: " + rutaElemento.getFileName());
+        System.out.println("La ruta del padre es: " + rutaElemento.getParent());
 
         try {
-            if(Files.isRegularFile(rutaFichero)){
+            if(Files.isRegularFile(rutaElemento)){
                 System.out.println("Es un fichero como tal");
+            }else if(Files.isDirectory(rutaElemento)){
+                System.out.println("Es un directorio");
             }
 
-            if(!Files.exists(rutaFichero)){
+
+            if(!Files.exists(rutaElemento)){
                 System.out.println("El fichero no existe...");
             }
-            List<String> contenidoFichero = Files.readAllLines(rutaFichero);
+            List<String> contenidoFichero = Files.readAllLines(rutaElemento);
 
             for (String linea: contenidoFichero){
                 System.out.println(linea);
