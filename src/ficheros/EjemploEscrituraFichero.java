@@ -12,6 +12,7 @@ public class EjemploEscrituraFichero {
 
         Path rutaFichero = Paths.get("Salida2.txt");
 
+
         try {
 
             Files.writeString(rutaFichero, "\n Yassin quiere irse... ", StandardOpenOption.APPEND);

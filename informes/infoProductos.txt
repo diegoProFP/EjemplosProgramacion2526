@@ -1,0 +1,3 @@
+Producto con ID 101, se llama Camisa, cuesta 25,990000 y tenemos 50 en stock
+Producto con ID 102, se llama Pantalon, cuesta 45,500000 y tenemos 30 en stock
+Producto con ID 103, se llama Zapatos, cuesta 80,000000 y tenemos 15 en stock
