@@ -17,7 +17,7 @@ public class PruebaAccesoBd {
             sentencia = conexion.createStatement();
 
             int numFilasAfectadas =
-                    sentencia.executeUpdate("INSERT INTO caff4345tegorias(nombre) VALUES('Servidores')");
+                    sentencia.executeUpdate("INSERT INTO categorias(nombre) VALUES('Servidores')");
 
             System.out.println("Categoria insertada. Numero de filas afectadas: " + numFilasAfectadas);
 
