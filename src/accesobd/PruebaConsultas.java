@@ -13,7 +13,7 @@ public class PruebaConsultas {
         2. Que la consulta sólo muestre los productos mayores a 100€ (es decir, pasar el parámetro, no que esté a pelo). Usar las propiedades del prepareStatement
         3. Crear clase Producto, con los mismos campos que tiene la tabla
         4. Con cada fila recuperada, crear un objeto de Producto y meter en un ArrayList
-        5. Que la consulta me devuelva tambien el nombre de la categoria del producto
+        5. Que la consulta me devuelva tambien el id y el nombre de la categoria del producto
         6. Crear una clase Categoria (campos id, nombre)
         7. Que el producto tenga un objeto de la clase Categoria
         8. Asignar la categoria y mostrarla cuand se muestre el producto
