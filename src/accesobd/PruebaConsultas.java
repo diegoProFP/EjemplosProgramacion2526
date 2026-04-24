@@ -3,6 +3,7 @@ package accesobd;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class PruebaConsultas {
 
@@ -18,14 +19,19 @@ public class PruebaConsultas {
         7. Que el producto tenga un objeto de la clase Categoria
         8. Asignar la categoria y mostrarla cuand se muestre el producto
          */
+        System.out.println("Dime cadena para buscar productos");
+        Scanner teclado = new Scanner(System.in);
+        String palabra = teclado.nextLine();
 
         try(Connection conexion = DriverManager.getConnection(ConstantesBd.URL, ConstantesBd.USER, ConstantesBd.PASS);
-            PreparedStatement sentenciaConsulta = conexion.prepareStatement("select p.*, c.nombre as nombre_categoria from daw_tienda.productos p join daw_tienda.categorias c on c.id_categoria = p.id_categoria  where precio >  ?");
+            PreparedStatement sentenciaConsulta = conexion.prepareStatement("select p.*, c.nombre as nombre_categoria from daw_tienda.productos p join daw_tienda.categorias c on c.id_categoria = p.id_categoria  " +
+                    " where precio >  ? and p.nombre like ? ");
             ){
 
             double precioFiltro = 100;
 
             sentenciaConsulta.setDouble(1, precioFiltro);
+            sentenciaConsulta.setString(2, "%" + palabra + "%");
             ResultSet conjuntoResultado = sentenciaConsulta.executeQuery();
 
             List<Producto> productosBd = new ArrayList<>();
