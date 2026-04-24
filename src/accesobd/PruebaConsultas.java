@@ -18,6 +18,7 @@ public class PruebaConsultas {
         6. Crear una clase Categoria (campos id, nombre)
         7. Que el producto tenga un objeto de la clase Categoria
         8. Asignar la categoria y mostrarla cuand se muestre el producto
+        9. Montar una busqueda segun varios criterios: nombre producto, precio maximo y nombre categoria. Este ultimo, opcional
          */
         System.out.println("Dime cadena para buscar productos");
         Scanner teclado = new Scanner(System.in);
