@@ -20,7 +20,7 @@ public class PruebaConsultas {
          */
 
         try(Connection conexion = DriverManager.getConnection(ConstantesBd.URL, ConstantesBd.USER, ConstantesBd.PASS);
-            PreparedStatement sentenciaConsulta = conexion.prepareStatement("SELECT * FROM productos where precio > ?");
+            PreparedStatement sentenciaConsulta = conexion.prepareStatement("select p.*, c.nombre as nombre_categoria from daw_tienda.productos p join daw_tienda.categorias c on c.id_categoria = p.id_categoria  where precio >  ?");
             ){
 
             double precioFiltro = 100;
@@ -38,8 +38,11 @@ public class PruebaConsultas {
                 int stock = conjuntoResultado.getInt("stock");
                 boolean activo = conjuntoResultado.getBoolean("activo");
                 int idCategoria = conjuntoResultado.getInt("id_categoria");
+                String nombreCategoria = conjuntoResultado.getString("nombre_categoria");
 
-                Producto nuevo = new Producto(idProducto, nombreProducto, precioProducto,stock, activo);
+
+                Categoria catProducto = new Categoria(idCategoria, nombreCategoria);
+                Producto nuevo = new Producto(idProducto, nombreProducto, precioProducto,stock, activo, catProducto);
                 productosBd.add(nuevo);
 //
             }

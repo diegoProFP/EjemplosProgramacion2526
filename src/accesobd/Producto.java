@@ -7,6 +7,7 @@ public class Producto {
     private double precio;
     private int stock;
     private boolean activo;
+    private Categoria categoria;
 
     public Producto(int id, String nombre, double precio, int stock, boolean activo) {
         this.id = id;
@@ -16,12 +17,29 @@ public class Producto {
         this.activo = activo;
     }
 
+    public Producto(int id, String nombre, double precio, int stock, boolean activo, Categoria categoria) {
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.stock = stock;
+        this.activo = activo;
+        this.categoria = categoria;
+    }
+
     public void mostrarProducto() {
-        String lineaProducto = "\t - ID: %d | Nombre: %s | Precio: %f | Stock: %d | Activo: %s";
+        String lineaProducto = "\t - ID: %d | Nombre: %s | Precio: %f | Stock: %d | Activo: %s | Categoria: %s ";
 
         System.out.println(String.format(lineaProducto, getId(), getNombre(),getPrecio(),
-                getStock(), isActivo() ? "SI" : "NO"));
+                getStock(), isActivo() ? "SI" : "NO", getCategoria().getNombre()));
 
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     public int getId() {
