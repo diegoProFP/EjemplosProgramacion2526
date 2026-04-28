@@ -27,6 +27,8 @@ public class InsertarNuevoProducto {
             PreparedStatement sentencia = conexion.prepareStatement(
                     "INSERT INTO productos(nombre, precio, stock, activo, id_categoria) VALUES(?, ?, ?, ?, ?)")){
 
+
+
             System.out.println("Conexión exitosa");
 
             sentencia.setString(1, nombreProducto);
