@@ -1,7 +1,11 @@
 package accesobd.ejercicioventas;
 
+import accesobd.ejercicioventas.modelo.Cliente;
 import accesobd.ejercicioventas.modelo.Producto;
+import accesobd.ejercicioventas.modelo.Venta;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,7 +21,7 @@ public class ProgramaVentas {
         gestor = new GestorVentas();
 
         do {
-            System.out.println("\n=== MENÚ ===");
+            System.out.println("\n=== MENU ===");
             System.out.println("1. Mostrar productos");
             System.out.println("2. Mostrar clientes");
             System.out.println("3. Mostrar ventas");
@@ -25,7 +29,7 @@ public class ProgramaVentas {
             System.out.println("5. Insertar cliente");
             System.out.println("6. Insertar venta");
             System.out.println("0. Salir");
-            System.out.print("Opción: ");
+            System.out.print("Opcion: ");
 
             opcion = sc.nextInt();
             sc.nextLine();
@@ -39,7 +43,7 @@ public class ProgramaVentas {
                     System.out.print("Nombre: ");
                     String nombre = sc.nextLine();
 
-                    System.out.print("Descripción: ");
+                    System.out.print("Descripcion: ");
                     String descripcion = sc.nextLine();
 
                     System.out.print("Precio: ");
@@ -53,10 +57,10 @@ public class ProgramaVentas {
                     System.out.print("Nombre: ");
                     String nombre = sc.nextLine();
 
-                    System.out.print("Dirección: ");
+                    System.out.print("Direccion: ");
                     String direccion = sc.nextLine();
 
-                    System.out.print("Teléfono: ");
+                    System.out.print("Telefono: ");
                     String telefono = sc.nextLine();
 
                     insertarCliente(nombre, direccion, telefono);
@@ -80,29 +84,58 @@ public class ProgramaVentas {
                 }
 
                 case 0 -> System.out.println("Saliendo...");
-                default -> System.out.println("Opción inválida");
+                default -> System.out.println("Opcion invalida");
             }
 
         } while (opcion != 0);
 
         sc.close();
-        }
+    }
 
     private static void insertarProducto(String nombre, String descripcion, double precio) {
+        boolean insertado = gestor.insertarProducto(nombre, descripcion, precio);
+        if (insertado) {
+            System.out.println("Producto insertado correctamente");
+        }
     }
 
     private static void insertarCliente(String nombre, String direccion, String telefono) {
+        boolean insertado = gestor.insertarCliente(nombre, direccion, telefono);
+        if (insertado) {
+            System.out.println("Cliente insertado correctamente");
+        }
     }
 
     private static void insertarVenta(int clienteId, int productoId, int cantidad, String fecha) {
+        try {
+            LocalDate fechaVenta = LocalDate.parse(fecha);
+            boolean insertado = gestor.insertarVenta(clienteId, productoId, cantidad, fechaVenta);
+            if (insertado) {
+                System.out.println("Venta insertada correctamente");
+            }
+        } catch (DateTimeParseException e) {
+            System.err.println("La fecha debe tener el formato YYYY-MM-DD");
+        }
     }
 
     private static void mostrarVentas() {
-
-
+        List<Venta> ventas = gestor.obtenerVentas();
+        System.out.println("**** LISTA DE VENTAS. TOTAL: " + ventas.size() + " *****");
+        for (Venta v : ventas) {
+            System.out.printf("ID: %d | Cliente: %s | Producto: %s | Cantidad: %d | Fecha: %s",
+                    v.getId(), v.getNombreCliente(), v.getNombreProducto(), v.getCantidad(), v.getFechaVenta());
+            System.out.println();
+        }
     }
 
     private static void mostrarClientes() {
+        List<Cliente> clientes = gestor.obtenerClientes();
+        System.out.println("**** LISTA DE CLIENTES. TOTAL: " + clientes.size() + " *****");
+        for (Cliente c : clientes) {
+            System.out.printf("ID: %d | Nombre: %s | Direccion: %s | Telefono: %s",
+                    c.getId(), c.getNombre(), c.getDireccion(), c.getTelefono());
+            System.out.println();
+        }
     }
 
     private static void mostrarProductos() {
@@ -110,9 +143,9 @@ public class ProgramaVentas {
         List<Producto> productos = gestor.obtenerProductos();
         System.out.println("**** LISTA DE PRODUCTOS. TOTAL: " + productos.size() + " *****");
         for (Producto p : productos) {
-            System.out.printf("ID: %d | Nombre: %s | Descripcion: %s | Precio: %f", p.getId(), p.getNombre(), p.getDescripcion(), p.getPrecio());
+            System.out.printf("ID: %d | Nombre: %s | Descripcion: %s | Precio: %.2f",
+                    p.getId(), p.getNombre(), p.getDescripcion(), p.getPrecio());
             System.out.println();
         }
     }
-
 }
