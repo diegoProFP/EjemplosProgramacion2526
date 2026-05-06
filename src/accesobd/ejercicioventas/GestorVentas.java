@@ -10,8 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Clase que contiene la funcionalidad para leer, escribir, etc.. en la BD
@@ -182,5 +181,27 @@ public class GestorVentas {
         }
 
         return false;
+    }
+
+    public Map<String, Integer> consultarVentasPorProducto(){
+
+        Map<String, Integer> mapaVentasPorProducto = new HashMap<>();
+
+        //cojo las ventas de la BD
+        List<Venta> ventas = this.obtenerVentas();
+        //recorro las ventas.
+        for(Venta unaVenta: ventas){
+            String nombreProducto = unaVenta.getNombreProducto();
+
+            Integer ventasTotalesProducto;
+            //si existe, actualizo su valor con la cantidad de la venta. Si no existe, le pongo la cantidad de la venta
+            ventasTotalesProducto = mapaVentasPorProducto.getOrDefault(nombreProducto, 0);
+            ventasTotalesProducto += unaVenta.getCantidad();
+            //meter en el mapa el valor resultante para ese nombre
+            mapaVentasPorProducto.put(nombreProducto, ventasTotalesProducto);
+
+        }
+
+        return mapaVentasPorProducto;
     }
 }

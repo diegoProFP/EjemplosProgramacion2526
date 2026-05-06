@@ -7,7 +7,9 @@ import accesobd.ejercicioventas.modelo.Venta;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 public class ProgramaVentas {
 
@@ -28,6 +30,8 @@ public class ProgramaVentas {
             System.out.println("4. Insertar producto");
             System.out.println("5. Insertar cliente");
             System.out.println("6. Insertar venta");
+            System.out.println("7. Relacion de Ventas por Producto");
+            System.out.println("8. Exportar relacion de Ventas por Producto");
             System.out.println("0. Salir");
             System.out.print("Opcion: ");
 
@@ -82,6 +86,25 @@ public class ProgramaVentas {
 
                     insertarVenta(clienteId, productoId, cantidad, fecha);
                 }
+                case 7 ->{
+                    Map<String, Integer> ventasPorProducto = gestor.consultarVentasPorProducto();
+                    Set<Map.Entry<String, Integer>> entradasMapa = ventasPorProducto.entrySet();
+
+                    System.out.println("Relación de ventas por producto: ");
+                    System.out.println("__________________________");
+                    for(Map.Entry<String, Integer> entrada: entradasMapa){
+                        System.out.println("| " + entrada.getKey() + " : " + entrada.getValue() + " |");
+                    }
+                    System.out.println("__________________________");
+
+
+                }
+                case 8 ->{
+                    Map<String, Integer> ventasPorProducto = gestor.consultarVentasPorProducto();
+                    GestorFicheros.volcarVentasPorProducto(ventasPorProducto);
+
+                }
+
 
                 case 0 -> System.out.println("Saliendo...");
                 default -> System.out.println("Opcion invalida");
