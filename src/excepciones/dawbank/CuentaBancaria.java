@@ -1,6 +1,8 @@
 package excepciones.dawbank;
 
-import java.math.BigInteger;
+import excepciones.dawbank.exceptions.CuentaException;
+import excepciones.dawbank.exceptions.IbanInvalidoException;
+
 import java.util.Arrays;
 
 public class CuentaBancaria {
@@ -16,18 +18,21 @@ public class CuentaBancaria {
     private int posicionProximoMovimiento = 0;
 
     //TODO: Si el IBAN no es valido, elevar una excepcion de "IbanInvalidoException"
-    public CuentaBancaria(String iban, Persona titularCuenta) throws IbanInvalidoException {
+    public CuentaBancaria(String iban, Persona titularCuenta) throws IbanInvalidoException, CuentaException {
 
         if(!validarIBANCuenta(iban)){
             // lanzar excepcion propia
             throw new IbanInvalidoException(iban);
         }
         this.iban = iban;
+        if(titularCuenta == null || titularCuenta.getNombre().isEmpty()){
+            throw new CuentaException("El titular de la cuenta no puede ser nulo");
+        }
         this.titular = titularCuenta;
         movimientos = new Movimiento[MAX_MOVIMIENTOS];
     }
 
-    public boolean ingresar(double importe, String concepto){
+    public boolean ingresar(double importe, String concepto) throws CuentaException {
 
         if(importe > 0){
             this.saldo += importe;
@@ -38,12 +43,13 @@ public class CuentaBancaria {
                 this.titular.setEsMoroso(false);
                 NUMERO_TOTAL_MOROSOS--;
             }
-
             return true;
+        }else{
+            throw new CuentaException("Cantidad no válida al ingresar. Tiene que ser un nº positivo: " + importe);
         }
-        return false;
+       // return false;
     }
-    public boolean retirar(double importe, String concepto){
+    public boolean retirar(double importe, String concepto) throws CuentaException {
         if(importe > 0){
             if( (this.saldo - importe) < LIMITE_MINIMO_CUENTA){
                 System.out.printf("ERROR: Saldo de la cuenta es %f y se quiere retirar %f. Se va a superar mínimo disponible de %d", saldo, importe, LIMITE_MINIMO_CUENTA);
@@ -59,6 +65,8 @@ public class CuentaBancaria {
 
                 return true;
             }
+        }else{
+            throw new CuentaException("Cantidad no válida al retirar. Tiene que ser un nº positivo: " + importe);
         }
         return false;
     }
@@ -188,10 +196,14 @@ public class CuentaBancaria {
 
     public static boolean transferenciaCuentas(CuentaBancaria origen, CuentaBancaria destino, double importe){
         if(origen != null && destino != null){
-            boolean resultado = origen.retirar(importe, Movimiento.TIPO_MOVIMIENTO_TRANSFERENCIA);
-            if(resultado){
-                resultado = destino.ingresar(importe, Movimiento.TIPO_MOVIMIENTO_TRANSFERENCIA);
-                return resultado;
+            try {
+                boolean resultado = origen.retirar(importe, Movimiento.TIPO_MOVIMIENTO_TRANSFERENCIA);
+                if (resultado) {
+                    resultado = destino.ingresar(importe, Movimiento.TIPO_MOVIMIENTO_TRANSFERENCIA);
+                    return resultado;
+                }
+            }catch (CuentaException ex){
+                System.err.println("No hemos podido realizar el retiro o el ingreso. Más info: " + ex.getMessage());
             }
         }else{
             System.out.println("Alguna de las cuentas es nula");
